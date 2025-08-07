@@ -1,0 +1,27 @@
+# Archivos de compilación
+bin/
+obj/
+
+# Configuración del usuario de Visual Studio
+.vscode/
+*.user
+*.suo
+
+# Archivos temporales y del sistema
+*.tmp
+*.log
+*.bak
+*.swp
+*.DS_Store
+Thumbs.db
+
+# Archivos de publicación
+*.publish/
+*.exe
+*.dll
+
+# Archivos generados por Git
+*.orig
+
+# Archivos de proyecto que no deseas compartir
+Dockerfile
