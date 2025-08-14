@@ -1,0 +1,5 @@
+C:\Users\greni\OneDrive\Documentos\repos\ChatP2P\obj\Debug\net9.0\chatP2P.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\greni\OneDrive\Documentos\repos\ChatP2P\obj\Debug\net9.0\chatP2P.AssemblyInfoInputs.cache
+C:\Users\greni\OneDrive\Documentos\repos\ChatP2P\obj\Debug\net9.0\chatP2P.AssemblyInfo.cs
+C:\Users\greni\OneDrive\Documentos\repos\ChatP2P\obj\Debug\net9.0\chatP2P.csproj.CoreCompileInputs.cache
+C:\Users\greni\OneDrive\Documentos\repos\ChatP2P\obj\Debug\net9.0\chatP2P.sourcelink.json
