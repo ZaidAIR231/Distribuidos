@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "AKDcNJuhjs4=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\greni\\OneDrive\\Documentos\\repos\\helloworld\\HelloworldApi\\HelloworldApi.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\greni\\.nuget\\packages\\microsoft.aspnetcore.openapi\\9.0.7\\microsoft.aspnetcore.openapi.9.0.7.nupkg.sha512",
+    "C:\\Users\\greni\\.nuget\\packages\\microsoft.openapi\\1.6.17\\microsoft.openapi.1.6.17.nupkg.sha512"
+  ],
+  "logs": []
+}
