@@ -1,13 +1,17 @@
 using System.ServiceModel;
-using System.Threading;              // <-- para CancellationToken
 using PokemonApi.Dtos;
 
 namespace PokemonApi.Services;
 
 [ServiceContract(Name = "PokemonService", Namespace = "http://pokemon-api/pokemon-service")]
-public interface IPokemonService
+public interface IPokemonServices
 {
     [OperationContract]
     Task<PokemonResponseDto> CreatePokemon(CreatePokemonDto pokemon, CancellationToken cancellationToken);
-}
 
+    [OperationContract]
+    Task<PokemonResponseDto> GetPokemonById(Guid id, CancellationToken cancellationToken);
+
+    [OperationContract]
+    Task<IList<PokemonResponseDto>> GetPokemonsByName(string name, CancellationToken cancellationToken);
+}

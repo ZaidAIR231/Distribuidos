@@ -19,6 +19,5 @@ public class PokemonResponseDto
 
     [DataMember(Name = "Stats", Order = 5)]
     public required StatsDto Stats { get; set; }
-
 }
 
