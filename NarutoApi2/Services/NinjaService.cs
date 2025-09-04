@@ -1,11 +1,9 @@
-using System.Collections.Generic;
 using System.ServiceModel;
-using System.Threading;
-using System.Threading.Tasks;
 using NarutoApi.Dtos;
-using NarutoApi.Mappers;
 using NarutoApi.Repositories;
+using NarutoApi.Mappers;
 using NarutoApi.Validators;
+using NarutoApi.Models;
 
 namespace NarutoApi.Services;
 
@@ -18,28 +16,35 @@ public class NinjaService : INinjaService
         _ninjaRepository = ninjaRepository;
     }
 
-    public async Task<NinjaResponseDto> CreateNinja(CreateNinjaDto ninja, CancellationToken cancellationToken)
+    public async Task<NinjaResponseDto> CreateNinja(CreateNinjaDto request, CancellationToken cancellationToken)
     {
-        // Validaciones 
-        ninja
+       
+        request
             .ValidateName()
             .ValidateVillage()
             .ValidateRank()
-            .ValidateChakra()
-            .ValidateMainJutsu();
+            .ValidateNinJutsu()
+            .ValidateChakra();
 
-        // No duplicados 
-        var existing = await _ninjaRepository.GetByNameAsync(ninja.Name, cancellationToken);
-        if (existing is not null)
+        if (await IsDuplicatedAsync(request.Name, cancellationToken))
             throw new FaultException("Ninja already exists");
 
-        var created = await _ninjaRepository.CreateAsync(ninja.ToModel(), cancellationToken);
-        return created.ToResponseDto();
+        var ninja = await _ninjaRepository.CreateAsync(request.ToModel(), cancellationToken);
+        return ninja.ToResponseDto();
     }
 
-    public async Task<IReadOnlyList<NinjaResponseDto>> GetNinjasByName(string name, CancellationToken cancellationToken)
+    public async Task<IList<NinjaResponseDto>> GetNinjasByName(string name, CancellationToken cancellationToken)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new FaultException("Name is required");
+
         var ninjas = await _ninjaRepository.GetNinjasByNameAsync(name, cancellationToken);
         return ninjas.ToResponseDto();
+    }
+
+    private async Task<bool> IsDuplicatedAsync(string name, CancellationToken cancellationToken)
+    {
+        var existing = await _ninjaRepository.GetByNameAsync(name, cancellationToken);
+        return existing is not null;
     }
 }

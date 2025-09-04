@@ -11,17 +11,17 @@ USER app
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG configuration=Release
 WORKDIR /src
-COPY ["NarutoApi.csproj", "./"]
-RUN dotnet restore "NarutoApi.csproj"
+COPY ["NarutoApi2.csproj", "./"]
+RUN dotnet restore "NarutoApi2.csproj"
 COPY . .
 RUN ls
-RUN dotnet build "NarutoApi.csproj" -c ${configuration} -o /app/build
+RUN dotnet build "NarutoApi2.csproj" -c ${configuration} -o /app/build
 
 FROM build AS publish
 ARG configuration=Release
-RUN dotnet publish "NarutoApi.csproj" -c ${configuration} -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "NarutoApi2.csproj" -c ${configuration} -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "NarutoApi.dll"]
+ENTRYPOINT ["dotnet", "NarutoApi2.dll"]
