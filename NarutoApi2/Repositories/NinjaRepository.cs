@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NarutoApi.Infrastructure;
 using NarutoApi.Models;
@@ -31,7 +27,7 @@ public class NinjaRepository : INinjaRepository
     {
         var entities = await _context.Ninjas
             .AsNoTracking()
-            .Where(n => n.Name.Contains(name))
+            .Where(n => n.Name.Contains(name))               
             .ToListAsync(cancellationToken);
 
         return entities.ToModel();
@@ -39,7 +35,7 @@ public class NinjaRepository : INinjaRepository
 
     public async Task<Ninja> CreateAsync(Ninja ninja, CancellationToken cancellationToken)
     {
-        var entity = ninja.ToEntity(); 
+        var entity = ninja.ToEntity();
         await _context.Ninjas.AddAsync(entity, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
         return entity.ToModel();

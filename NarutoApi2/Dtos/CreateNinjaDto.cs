@@ -6,17 +6,17 @@ namespace NarutoApi.Dtos;
 public class CreateNinjaDto
 {
     [DataMember(Name = "Name", Order = 1)]
-    public required string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     [DataMember(Name = "Village", Order = 2)]
-    public required string Village { get; set; } // Konoha, Suna, etc.
+    public string Village { get; set; } = default!;
 
     [DataMember(Name = "Rank", Order = 3)]
-    public required string Rank { get; set; } // Genin, Chunin, Jonin, Kage
+    public string Rank { get; set; } = default!;
 
     [DataMember(Name = "Chakra", Order = 4)]
-    public int Chakra { get; set; } // 1..100
+    public int Chakra { get; set; }
 
-    [DataMember(Name = "MainJutsu", Order = 5)]
-    public required string MainJutsu { get; set; }
+    [DataMember(Name = "NinJutsu", Order = 5)]   
+    public string NinJutsu { get; set; } = default!;
 }

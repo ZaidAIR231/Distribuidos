@@ -6,20 +6,20 @@ namespace NarutoApi.Dtos;
 public class NinjaResponseDto
 {
     [DataMember(Name = "Id", Order = 1)]
-    public int Id { get; set; } // int autoincrement para que sea simple
+    public Guid Id { get; set; }
 
     [DataMember(Name = "Name", Order = 2)]
-    public required string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     [DataMember(Name = "Village", Order = 3)]
-    public required string Village { get; set; }
+    public string Village { get; set; } = default!;
 
     [DataMember(Name = "Rank", Order = 4)]
-    public required string Rank { get; set; }
+    public string Rank { get; set; } = default!;
 
     [DataMember(Name = "Chakra", Order = 5)]
     public int Chakra { get; set; }
 
-    [DataMember(Name = "MainJutsu", Order = 6)]
-    public required string MainJutsu { get; set; }
+    [DataMember(Name = "NinJutsu", Order = 6)]
+    public string NinJutsu { get; set; } = default!;
 }
