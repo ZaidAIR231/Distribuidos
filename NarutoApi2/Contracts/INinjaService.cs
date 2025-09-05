@@ -9,4 +9,11 @@ public interface INinjaService
 {
     [OperationContract]
     Task<NinjaResponseDto> CreateNinja(CreateNinjaDto ninja, CancellationToken cancellationToken);
+
+   [OperationContract]
+    Task<NinjaResponseDto> GetNinjaById(Guid id, CancellationToken cancellationToken);
+
+    [OperationContract]
+    Task<DeleteNinjaResponseDto> DeleteNinja(Guid id, CancellationToken cancellationToken);
+
 }

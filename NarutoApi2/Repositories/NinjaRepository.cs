@@ -22,12 +22,28 @@ public class NinjaRepository : INinjaRepository
 
         return entity?.ToModel();
     }
+public async Task<Ninja?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+{
+    var entity = await _context.Ninjas
+        .AsNoTracking()
+        .FirstOrDefaultAsync(n => n.Id == id, cancellationToken);
+
+    return entity?.ToModel();
+}
+
+
+public async Task DeleteAsync(Ninja ninja, CancellationToken cancellationToken)
+{
+    _context.Ninjas.Remove(ninja.ToEntity());
+    await _context.SaveChangesAsync(cancellationToken);
+}
+
 
     public async Task<IReadOnlyList<Ninja>> GetNinjasByNameAsync(string name, CancellationToken cancellationToken)
     {
         var entities = await _context.Ninjas
             .AsNoTracking()
-            .Where(n => n.Name.Contains(name))               
+            .Where(n => n.Name.Contains(name))
             .ToListAsync(cancellationToken);
 
         return entities.ToModel();
