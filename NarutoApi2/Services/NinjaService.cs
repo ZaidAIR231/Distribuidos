@@ -15,10 +15,29 @@ public class NinjaService : INinjaService
     {
         _ninjaRepository = ninjaRepository;
     }
+    public async Task<NinjaResponseDto> GetNinjaById(Guid id, CancellationToken cancellationToken)
+{
+    var ninja = await _ninjaRepository.GetByIdAsync(id, cancellationToken);
+    if (ninja is null)
+        throw new FaultException("Ninja not found");
+
+    return ninja.ToResponseDto();
+}
+
+public async Task<DeleteNinjaResponseDto> DeleteNinja(Guid id, CancellationToken cancellationToken)
+{
+    var ninja = await _ninjaRepository.GetByIdAsync(id, cancellationToken);
+    if (ninja is null)
+        throw new FaultException("Ninja not found");
+
+    await _ninjaRepository.DeleteAsync(ninja, cancellationToken);
+    return new DeleteNinjaResponseDto { Success = true };
+}
+
 
     public async Task<NinjaResponseDto> CreateNinja(CreateNinjaDto request, CancellationToken cancellationToken)
     {
-       
+
         request
             .ValidateName()
             .ValidateVillage()
