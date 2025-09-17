@@ -24,7 +24,6 @@
         </xs:sequence>
     </xs:complexType>
 
-    <!-- Operaciones -->
     <xs:element name="createPikminRequest">
         <xs:complexType>
             <xs:sequence>
