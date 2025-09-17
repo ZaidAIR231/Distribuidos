@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: captain_user
       POSTGRES_PASSWORD: Luis_pass
     ports:
-      - "3315:5432"              # host:container  (5432 es el puerto interno de Postgres)
+      - "3315:5432"             
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
@@ -31,7 +31,7 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_FLYWAY_ENABLED: "true"
     ports:
-      - "8088:8081"              # publica 8088 en tu PC -> 8081 dentro del contenedor
+      - "8088:8081"             
     networks:
       - pikminnet
 
