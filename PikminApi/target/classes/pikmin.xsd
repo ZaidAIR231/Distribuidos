@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://pikmin.onion.com/ws"
+           xmlns:tns="http://pikmin.onion.com/ws"
+           elementFormDefault="qualified">
+
+    <!-- Tipos -->
+    <xs:complexType name="Pikmin">
+        <xs:sequence>
+            <xs:element name="id" type="xs:string" minOccurs="0"/>
+            <xs:element name="captainName" type="xs:string"/>
+            <xs:element name="color" type="xs:string"/>
+            <xs:element name="onionCount" type="xs:int"/>
+            <xs:element name="habitat" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="PikminInput">
+        <xs:sequence>
+            <xs:element name="captainName" type="xs:string"/>
+            <xs:element name="color" type="xs:string"/>
+            <xs:element name="onionCount" type="xs:int"/>
+            <xs:element name="habitat" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <!-- Operaciones -->
+    <xs:element name="createPikminRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pikmin" type="tns:PikminInput"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="createPikminResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pikmin" type="tns:Pikmin"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPikminByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="id" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getPikminByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pikmin" type="tns:Pikmin" minOccurs="0"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

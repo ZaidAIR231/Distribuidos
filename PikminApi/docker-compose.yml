@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: olimar-postgres
+    environment:
+      POSTGRES_DB: onion_pikmins_db
+      POSTGRES_USER: captain_user
+      POSTGRES_PASSWORD: Luis_pass
+    ports:
+      - "3315:5432"              # host:container  (5432 es el puerto interno de Postgres)
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U captain_user -d onion_pikmins_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pikminnet
+
+  app:
+    build: .
+    container_name: pikmin-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/onion_pikmins_db
+      SPRING_DATASOURCE_USERNAME: captain_user
+      SPRING_DATASOURCE_PASSWORD: Luis_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+    ports:
+      - "8088:8081"              # publica 8088 en tu PC -> 8081 dentro del contenedor
+    networks:
+      - pikminnet
+
+volumes:
+  postgres_data:
+
+networks:
+  pikminnet:
+    driver: bridge

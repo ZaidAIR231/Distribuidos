@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bindings version="3.0" xmlns="https://jakarta.ee/xml/ns/jaxb">
+  <!--
+
+Este archivo ha sido generado por Eclipse Implementation of JAXB v3.0.0 
+Visite https://eclipse-ee4j.github.io/jaxb-ri 
+Todas las modificaciones realizadas en este archivo se perderán si se vuelve a compilar el esquema de origen. 
+Generado el: 2025.09.16 a las 07:53:26 PM CST 
+
+  -->
+  <bindings scd="x-schema::tns" xmlns:tns="http://pikmin.onion.com/ws">
+    <schemaBindings map="false">
+      <package name="com.onion.pikmins.ws"/>
+    </schemaBindings>
+    <bindings scd="tns:createPikminRequest">
+      <class ref="com.onion.pikmins.ws.CreatePikminRequest"/>
+    </bindings>
+    <bindings scd="~tns:PikminInput">
+      <class ref="com.onion.pikmins.ws.PikminInput"/>
+    </bindings>
+    <bindings scd="tns:createPikminResponse">
+      <class ref="com.onion.pikmins.ws.CreatePikminResponse"/>
+    </bindings>
+    <bindings scd="~tns:Pikmin">
+      <class ref="com.onion.pikmins.ws.Pikmin"/>
+    </bindings>
+    <bindings scd="tns:getPikminByIdRequest">
+      <class ref="com.onion.pikmins.ws.GetPikminByIdRequest"/>
+    </bindings>
+    <bindings scd="tns:getPikminByIdResponse">
+      <class ref="com.onion.pikmins.ws.GetPikminByIdResponse"/>
+    </bindings>
+  </bindings>
+</bindings>
+
