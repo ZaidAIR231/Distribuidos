@@ -10,10 +10,15 @@ public interface INinjaService
     [OperationContract]
     Task<NinjaResponseDto> CreateNinja(CreateNinjaDto ninja, CancellationToken cancellationToken);
 
-   [OperationContract]
+    [OperationContract]
     Task<NinjaResponseDto> GetNinjaById(Guid id, CancellationToken cancellationToken);
 
     [OperationContract]
     Task<DeleteNinjaResponseDto> DeleteNinja(Guid id, CancellationToken cancellationToken);
+    [OperationContract]
+    Task<NinjaResponseDto> UpdateNinja(UpdateNinjaDto ninjaToUpdate, CancellationToken cancellationToken);
+
+    [OperationContract]
+    Task<IList<NinjaResponseDto>> GetNinjas(SearchNinjaDto filters, CancellationToken cancellationToken);
 
 }
