@@ -1,0 +1,25 @@
+## Build/VS
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## Logs
+*.log
+logs/
+
+## Secrets (nunca subas credenciales)
+secrets.json
+*/appsettings.*.Local.json
+
+## Publicaciones
+publish/
+
+## Dockera
+**/.dockerignore
