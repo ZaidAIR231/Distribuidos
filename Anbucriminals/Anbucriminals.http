@@ -1,0 +1,6 @@
+@Anbucriminals_HostAddress = http://localhost:5144
+
+GET {{Anbucriminals_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

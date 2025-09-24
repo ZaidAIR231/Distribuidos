@@ -8,7 +8,7 @@ public class PikminValidator {
         if (isBlank(input.getCaptainName())) throw new PikminValidationException("captainName requerido");
         if (isBlank(input.getColor())) throw new PikminValidationException("color requerido");
         if (isBlank(input.getHabitat())) throw new PikminValidationException("habitat requerido");
-        // onionCount es 'int' (no puede ser null)
+        // onionCount es 'int' 
         if (input.getOnionCount() < 0)
             throw new PikminValidationException("onionCount debe ser >= 0");
     }
