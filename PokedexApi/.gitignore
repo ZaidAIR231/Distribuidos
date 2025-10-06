@@ -1,0 +1,36 @@
+# Build artifacts
+bin/
+obj/
+out/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+logs/
+
+# Docker
+docker-compose.override.yml
+.env
+*.pid
+
+# Visual Studio
+.vs/
+
+# IDE metadata
+.idea/
+.vscode/
+*.swp
+
+# NuGet packages
+*.nupkg
+*.snupkg
+packages/
+
+# System
+Thumbs.db
+.DS_Store
