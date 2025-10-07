@@ -1,14 +1,14 @@
-using Anbucriminals.Services;
-using Anbucriminals.Gateways;
+using PokedexApi.Gateways;
+using PokedexApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+builder.Services.AddScoped<IPokemonService, PokemonService>();
+builder.Services.AddScoped<IPokemonGateway, PokemonGateway>();
 
-builder.Services.AddScoped<INinjaService, NinjaService>();
-builder.Services.AddScoped<INinjaGateway, NinjaGateway>();
 
 var app = builder.Build();
 
@@ -19,4 +19,3 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
-//a
