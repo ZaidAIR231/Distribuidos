@@ -27,11 +27,11 @@ public static class NinjaMapper
     };
     public static Ninja ToModel(this NinjaResponseDto dto) => new()
     {
-        Id       = dto.Id,
-        Name     = dto.Name,
-        Village  = dto.Village,
-        Rank     = dto.Rank,
-        Chakra   = dto.Chakra,
+        Id = dto.Id,
+        Name = dto.Name,
+        Village = dto.Village,
+        Rank = dto.Rank,
+        Chakra = dto.Chakra,
         NinJutsu = dto.NinJutsu
     };
 
@@ -40,6 +40,16 @@ public static class NinjaMapper
 
     public static CreateNinjaDto ToRequest(this Ninja model) => new()
     {
+        Name = model.Name,
+        Village = model.Village,
+        Rank = model.Rank,
+        Chakra = model.Chakra,
+        NinJutsu = model.NinJutsu
+    };
+    
+    public static UpdateNinjaDto ToUpdateRequest(this Ninja model) => new()
+    {
+        Id       = model.Id,
         Name     = model.Name,
         Village  = model.Village,
         Rank     = model.Rank,
