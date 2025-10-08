@@ -14,10 +14,12 @@ public interface INinjaService
 
     [OperationContract]
     Task<DeleteNinjaResponseDto> DeleteNinja(Guid id, CancellationToken cancellationToken);
+
     [OperationContract]
     Task<NinjaResponseDto> UpdateNinja(UpdateNinjaDto ninjaToUpdate, CancellationToken cancellationToken);
 
+    // ANTES: Task<IList<NinjaResponseDto>> GetNinjas(SearchNinjaDto filters, CancellationToken ct)
+    // AHORA:
     [OperationContract]
-    Task<IList<NinjaResponseDto>> GetNinjas(SearchNinjaDto filters, CancellationToken cancellationToken);
-
+    Task<PagedNinjaResponseDto> GetNinjas(SearchNinjaDto filters, CancellationToken cancellationToken);
 }
