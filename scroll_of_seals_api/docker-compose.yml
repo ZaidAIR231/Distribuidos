@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  scrolls-of-seals-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: scrolls-of-seals-api
+    ports:
+      - "5050:5000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDB__ConnectionString=mongodb://hokage:ramenlover@hidden-leaf-db:27017/?authSource=admin
+      - MongoDB__DatabaseName=HiddenLeafArchives
+      - MongoDB__ShinobiCollectionName=Shinobi
+    depends_on:
+      - hidden-leaf-db
+    networks:
+      - shinobi-network
+
+  hidden-leaf-db:
+    image: mongo:7.0
+    container_name: hidden-leaf-db
+    ports:
+      - "27018:27017"  
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=hokage
+      - MONGO_INITDB_ROOT_PASSWORD=ramenlover
+    volumes:
+      - leaf-data:/data/db
+    networks:
+      - shinobi-network
+
+networks:
+  shinobi-network:
+    driver: bridge
+
+volumes:
+  leaf-data:
