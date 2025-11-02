@@ -1,0 +1,54 @@
+server:
+  port: 8090
+
+logging:
+  level:
+    org.springframework.ws.client.MessageTracing: DEBUG
+    org.springframework.ws.client.core.WebServiceTemplate: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+
+spring:
+  datasource:
+    url: jdbc:postgresql://pimin-db:5432/pikmindb
+    username: pikmin
+    password: pikmin
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none           # Las tablas las migra el SOAP (Flyway en pikminapi)
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+
+  sql:
+    init:
+      mode: never              # No correr scripts SQL desde este servicio
+
+  flyway:
+    enabled: false             
+    
+    spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Hydra expone el JWKS en el puerto público (4444)
+          jwk-set-uri: http://hydra:4444/.well-known/jwks.json
