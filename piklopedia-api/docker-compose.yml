@@ -1,0 +1,67 @@
+services:
+  pimin-db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pikmin
+      POSTGRES_PASSWORD: pikmin
+      POSTGRES_DB: pikmindb
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -h 127.0.0.1 -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pikminapi:
+    build:
+      context: C:/Users/greni/OneDrive/Documentos/repos/PikminApi # RUTA DE PROYECTO
+      dockerfile: Dockerfile   
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://pimin-db:5432/pikmindb
+      SPRING_DATASOURCE_USERNAME: pikmin
+      SPRING_DATASOURCE_PASSWORD: pikmin
+      SERVER_PORT: 8081
+    depends_on:
+      pimin-db:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  hydra:
+    image: oryd/hydra:v2
+    command: serve all --dev
+    environment:
+      DSN: memory
+      SECRETS_SYSTEM: "change-me-super-secret-32chars-minxxxxxxxxxxxx"
+      URLS_SELF_ISSUER: http://localhost:4444/
+      STRATEGIES_ACCESS_TOKEN: jwt
+      LOG_LEAK_SENSITIVE_VALUES: "true"
+    ports:
+      - "4444:4444" # public
+      - "4445:4445" # admin
+
+  piklopedia-api: # API REST
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      PIKMIN_SOAP_BASE_URL: http://pikminapi:8081/ws
+      SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://hydra:4444/.well-known/jwks.json
+      SERVER_PORT: 8090
+    depends_on:
+      pikminapi:
+        condition: service_started
+      hydra:
+        condition: service_started
+    ports:
+      - "8090:8090"
+
+networks:
+  default:
+    name: piknet
