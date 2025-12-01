@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: nintendo_mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  nintendoapi:
+    build: .
+    container_name: nintendo_api
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      # Conexión a MongoDB dentro de la red de Docker
+      MONGO_URI: "mongodb://mongo:27017"
+      MONGO_DB_NAME: "nintendo_db"
+      MONGO_CONSOLES_COLLECTION: "consoles"
+
+      # Configuración gRPC
+      GRPC_HOST: "0.0.0.0"
+      GRPC_PORT: "50051"
+      LOG_LEVEL: "INFO"
+    ports:
+      # Exponer gRPC al host
+      - "50051:50051"
+
+volumes:
+  mongo_data:

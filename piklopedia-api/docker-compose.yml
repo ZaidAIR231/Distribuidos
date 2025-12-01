@@ -1,6 +1,9 @@
+version: "3.9"
+
 services:
   pimin-db:
     image: postgres:16
+    container_name: pimin-db
     environment:
       POSTGRES_USER: pikmin
       POSTGRES_PASSWORD: pikmin
@@ -15,8 +18,9 @@ services:
 
   pikminapi:
     build:
-      context: C:/Users/greni/OneDrive/Documentos/repos/PikminApi # RUTA DE PROYECTO
-      dockerfile: Dockerfile   
+      context: C:/Users/greni/OneDrive/Documentos/repos/PikminApi   # RUTA DE PROYECTO
+      dockerfile: Dockerfile
+    container_name: pikmin_api
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://pimin-db:5432/pikmindb
       SPRING_DATASOURCE_USERNAME: pikmin
@@ -35,6 +39,7 @@ services:
 
   hydra:
     image: oryd/hydra:v2
+    container_name: hydra
     command: serve all --dev
     environment:
       DSN: memory
@@ -46,21 +51,69 @@ services:
       - "4444:4444" # public
       - "4445:4445" # admin
 
-  piklopedia-api: # API REST
+  # Mongo para NintendoApi
+  mongo:
+    image: mongo:7
+    container_name: nintendo_mongo
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    ports:
+      - "27017:27017"
+
+  # NintendoApi gRPC server
+  nintendoapi:
+    build:
+      context: C:/Users/greni/OneDrive/Documentos/repos/nintendoapi   # AJUSTA esta ruta 
+      dockerfile: Dockerfile
+    container_name: nintendo_api
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    environment:
+      # Conexión a MongoDB dentro de la red de Docker
+      MONGO_URI: mongodb://mongo:27017
+      MONGO_DB_NAME: nintendo_db
+      MONGO_CONSOLES_COLLECTION: consoles
+
+      # Configuración gRPC
+      GRPC_HOST: 0.0.0.0
+      GRPC_PORT: 50051
+      LOG_LEVEL: INFO
+    ports:
+      - "50051:50051"
+
+  # API REST piklopedia (SOAP + gRPC client)
+  piklopedia-api:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: piklopedia_api
     environment:
+      # SOAP hacia PikminApi
       PIKMIN_SOAP_BASE_URL: http://pikminapi:8081/ws
+
+      # JWT validation contra Hydra
       SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI: http://hydra:4444/.well-known/jwks.json
+
+      # Puerto interno Spring
       SERVER_PORT: 8090
+
+      # Config gRPC Nintendo (se usan en application.yml)
+      NINTENDO_GRPC_HOST: nintendoapi
+      NINTENDO_GRPC_PORT: 50051
     depends_on:
       pikminapi:
         condition: service_started
       hydra:
         condition: service_started
+      nintendoapi:
+        condition: service_started
     ports:
       - "8090:8090"
+
+volumes:
+  mongo_data:
 
 networks:
   default:

@@ -43,12 +43,16 @@ spring:
       mode: never              # No correr scripts SQL desde este servicio
 
   flyway:
-    enabled: false             
-    
-    spring:
+    enabled: false
+
   security:
     oauth2:
       resourceserver:
         jwt:
           # Hydra expone el JWKS en el puerto público (4444)
           jwk-set-uri: http://hydra:4444/.well-known/jwks.json
+
+nintendo:
+  grpc:
+    host: ${NINTENDO_GRPC_HOST:nintendoapi}
+    port: ${NINTENDO_GRPC_PORT:50051}

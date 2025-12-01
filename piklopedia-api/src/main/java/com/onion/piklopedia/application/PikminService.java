@@ -11,7 +11,7 @@ import com.onion.piklopedia.infrastructure.soap.gateway.PikminSoapGateway;
 import com.onion.pikmin.ws.GetPikminByIdRequest;
 import com.onion.piklopedia.application.exception.ResourceConflictException;
 import com.onion.piklopedia.application.exception.ResourceNotFoundException;
-import lombok.RequiredArgsConstructor;
+
 //import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,13 +20,21 @@ import java.util.UUID;
 
 // Lógica de negocio principal para Pikmin (CRUD + integración SOAP)
 @Service
-@RequiredArgsConstructor
 public class PikminService {
 
   // Dependencias inyectadas
   private final PikminRepository repo;
   private final PikminMapper mapper;
   private final PikminSoapGateway gateway;
+
+  // ✅ Constructor explícito para inyección por constructor
+  public PikminService(PikminRepository repo,
+                       PikminMapper mapper,
+                       PikminSoapGateway gateway) {
+    this.repo = repo;
+    this.mapper = mapper;
+    this.gateway = gateway;
+  }
 
   // Obtiene un Pikmin desde el servicio SOAP usando su UUID
   public PikminDto getById(UUID id) {

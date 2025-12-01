@@ -2,7 +2,6 @@ package com.onion.piklopedia.api;
 
 import com.onion.piklopedia.infrastructure.soap.gateway.PikminSoapGateway;
 import com.onion.pikmin.ws.GetPikminByIdRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,12 +9,16 @@ import java.util.UUID;
 
 // Endpoint de salud para probar comunicación con el SOAP
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/health")
 public class PikminHealthController {
 
     // Gateway que consume el servicio SOAP
     private final PikminSoapGateway gateway;
+
+    
+    public PikminHealthController(PikminSoapGateway gateway) {
+        this.gateway = gateway;
+    }
 
     // GET /health/soap → verifica si el servicio SOAP responde correctamente
     @GetMapping("/soap")
@@ -34,4 +37,3 @@ public class PikminHealthController {
     // Objeto simple de estado para la respuesta
     record Status(String status, String detail) {}
 }
-

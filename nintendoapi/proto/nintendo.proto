@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package nintendo;
+
+option go_package = "nintendo"; // opcional, por si algún día lo usas con Go
+
+// Mensaje que representa una consola de Nintendo.
+// Nota: el campo id será un string que mapea a ObjectId en MongoDB.
+message Console {
+  string id = 1;                // ObjectId como string (solo lectura en creación)
+  string name = 2;              // Nombre comercial, p.ej. "Nintendo Switch"
+  string code_name = 3;         // Nombre clave interno, p.ej. "NX"
+  int32 generation = 4;         // Número de generación, p.ej. 8
+  int32 release_year = 5;       // Año de lanzamiento
+  int32 discontinued_year = 6;  // Año de descontinuación (0 o negativo = no aplica)
+  string description = 7;       // Descripción libre
+  repeated string regions = 8;  // Regiones principales, p.ej. ["JP", "NA", "EU"]
+  bool portable = 9;            // true = portátil o híbrida
+  string support_email = 10;    // Correo de soporte opcional ("" si no se usa)
+}
+
+// Request para crear una consola.
+// El campo id dentro de console se ignorará si viene poblado.
+message CreateConsoleRequest {
+  Console console = 1;
+}
+
+// Response para operaciones que retornan una sola consola.
+message ConsoleResponse {
+  Console console = 1;
+}
+
+// Request para obtener una consola por su id (ObjectId en string).
+message GetConsoleByIdRequest {
+  string id = 1;
+}
+
+// Request para listar consolas con filtros básicos y paginación.
+message ListConsolesRequest {
+  // Tamaño de página, p.ej. 10, 20, etc.
+  int32 page_size = 1;
+
+  // Token de página para paginación basada en cursor (string opaco).
+  string page_token = 2;
+
+  // Filtros opcionales:
+  // Si generation <= 0, no se filtra por generación.
+  int32 generation = 3;
+
+  // Si name_query está vacío, no se filtra por nombre.
+  // La implementación puede usar "contains" case-insensitive.
+  string name_query = 4;
+}
+
+// Response para el listado de consolas.
+message ListConsolesResponse {
+  repeated Console consoles = 1;  // Resultados de la página actual.
+  string next_page_token = 2;     // Token para la siguiente página ("" si no hay).
+  int64 total_count = 3;          // Total de documentos que cumplen el filtro.
+}
+
+// Request para actualizar una consola.
+// La implementación interpretará "console" como el estado deseado completo,
+// excepto el id que se toma del campo "id" principal.
+message UpdateConsoleRequest {
+  string id = 1;
+  Console console = 2;
+}
+
+// Request para eliminar una consola.
+message DeleteConsoleRequest {
+  string id = 1;
+}
+
+// Response para eliminación. "success" indica si se eliminó alguna consola.
+message DeleteConsoleResponse {
+  bool success = 1;
+}
+
+// Servicio principal de NintendoApi.
+service NintendoService {
+  rpc CreateConsole (CreateConsoleRequest) returns (ConsoleResponse);
+  rpc GetConsoleById (GetConsoleByIdRequest) returns (ConsoleResponse);
+  rpc ListConsoles (ListConsolesRequest) returns (ListConsolesResponse);
+  rpc UpdateConsole (UpdateConsoleRequest) returns (ConsoleResponse);
+  rpc DeleteConsole (DeleteConsoleRequest) returns (DeleteConsoleResponse);
+}
