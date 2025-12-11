@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+package scrolls_of_seals;
+
+option csharp_namespace = "ScrollsOfSealsApi";
+
+import "google/protobuf/timestamp.proto";
+
+
+service ShinobiRegistry {
+  rpc GetShinobiById (ShinobiByIdRequest) returns (ShinobiResponse);                 
+  rpc EnrollShinobi (stream EnrollShinobiRequest) returns (EnrollShinobiResponse);  
+  rpc FindShinobiByName (ShinobiByNameRequest) returns (stream ShinobiResponse);    
+}
+
+// Petición para buscar por nombre
+message ShinobiByNameRequest {
+  string name = 1;
+}
+
+// Petición para obtener shinobi por ID
+message ShinobiByIdRequest {
+  string id = 1;
+}
+
+
+message EnrollShinobiRequest {
+  string name = 1;
+  int32 age = 2;
+  google.protobuf.Timestamp birthdate = 3;
+  string village = 4;
+  repeated Mission missions = 5;
+}
+
+message EnrollShinobiResponse {
+  int32 success_count = 1;
+  repeated ShinobiResponse shinobi = 2;
+}
+
+
+message ShinobiResponse {
+  string id = 1;
+  string name = 2;
+  int32 age = 3;
+  google.protobuf.Timestamp birthdate = 4;
+  google.protobuf.Timestamp created_at = 5;
+  string village = 6;
+  repeated Mission missions = 7;
+}
+
+message Mission {
+  string village = 1;
+  MissionRank rank = 2;
+}
+
+
+enum MissionRank {
+  MISSION_RANK_UNSPECIFIED = 0;
+  D = 1;
+  C = 2;
+  B = 3;
+  A = 4;
+  S = 5;
+}
