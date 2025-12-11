@@ -23,3 +23,10 @@ public sealed class UpstreamUnavailableException : DomainException
     public UpstreamUnavailableException(string? message = null)
         : base(message ?? "Upstream service is unavailable.") { }
 }
+public sealed class NinjaAlreadyExistsException : DomainException
+{
+    public string NinjaName { get; }
+
+    public NinjaAlreadyExistsException(string name)
+        : base($"Ninja {name} already exists") => NinjaName = name;
+}
